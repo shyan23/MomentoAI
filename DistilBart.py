@@ -1,15 +1,24 @@
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+import torch
 from transformers import BartForConditionalGeneration, BartTokenizer
 
 # Initialize the FastAPI app
 app = FastAPI()
 
-# Load your trained DistilBART model and tokenizer
-model_path = "~/Desktop/MomentoAI/fine_tuned_model"  # Update this to your model's directory
-tokenizer = BartTokenizer.from_pretrained(model_path)
+
+from transformers import BartForConditionalGeneration, BartTokenizer
+
+# Load the fine-tuned model and tokenizer
+model_path = "./fine_tuned_model"
 model = BartForConditionalGeneration.from_pretrained(model_path)
+tokenizer = BartTokenizer.from_pretrained(model_path)
+
+# Move the model to GPU (if available)
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model.to(device)
+
 
 # Define the input schema
 class TextInput(BaseModel):

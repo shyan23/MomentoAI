@@ -1,3 +1,4 @@
 myenv
-.env
 __pycache__
+bart_large_cnn_model
+bart_large_cnn_tokenizer
